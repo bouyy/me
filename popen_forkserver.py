@@ -1,7 +1,7 @@
 import io
 import os
 
-from .context import reduction, set_spawning_popen
+from . context import reduction, set_spawning_popen
 if not reduction.HAVE_SEND_HANDLE:
     raise ImportError('No support for sending fds between processes')
 from . import forkserver
@@ -20,7 +20,7 @@ class _DupFd(object):
     def __init__(self, ind):
         self.ind = ind
     def detach(self):
-        return forkserver.get_inherited_fds()[self.ind]
+        return  forkserver.get_inherited_fds()[self.ind]
 
 #
 # Start child process using a server process
@@ -35,7 +35,7 @@ class Popen(popen_fork.Popen):
         super().__init__(process_obj)
 
     def duplicate_for_child(self, fd):
-        self._fds.append(fd)
+        self._fds.append(fd)  
         return len(self._fds) - 1
 
     def _launch(self, process_obj):
